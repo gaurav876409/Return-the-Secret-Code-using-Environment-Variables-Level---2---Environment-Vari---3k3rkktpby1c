@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const app = express();
 app.use(express.json());
@@ -25,6 +26,13 @@ Use the encryptString function given above to encrypt the secret code
 
 app.get('/api/get-env', (req, res) => {
     //Write your code here
+    const secretCode = process.env.SECRET;
+    if(secretCode){
+      const encryptSecret = encryptString(secretCode);
+      res.status(200).json({secret: encryptSecret});
+    } else{
+      res.status(404).json({error: "secret code not found in env file"});
+    }
 });
 
 module.exports = app;
